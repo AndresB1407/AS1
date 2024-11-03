@@ -42,7 +42,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/ASUS/OneDrive - PUJ Cali/Documentos/MAESTRÍA PUJ/analisis de series de tiempo/bookdown/ASTPUJ_Bookdown/HistoricalData_1728883475484.csv")
+spx_data <- read_csv("C:/Users/anaso/Downloads/HistoricalData_1728883475484.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -103,7 +103,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/ASUS/OneDrive - PUJ Cali/Documentos/MAESTRÍA PUJ/analisis de series de tiempo/bookdown/ASTPUJ_Bookdown/HistoricalData_1728883475484.csv")
+spx_data <- read_csv("C:/Users/anaso/Downloads/HistoricalData_1728883475484.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -280,3 +280,12 @@ legend("topright", legend = c("Original", "7-day Lag"),
 
 ```
 
+# Análisis Avanzado de Series de Tiempo
+
+## Descomposición de la Serie de Tiempo
+
+## Verificación de Estacionariedad
+
+## Diferenciación de la Serie
+
+## Transformación para Control de Tendencia y Variabilidad

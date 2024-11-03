@@ -9,3 +9,8 @@ serie-de-tiempo-en-bruto
 estacionalidad-y-tratamiento
 aproximación-por-ma
 aproximación-por-rezagos
+análisis-avanzado-de-series-de-tiempo
+descomposición-de-la-serie-de-tiempo
+verificación-de-estacionariedad
+diferenciación-de-la-serie
+transformación-para-control-de-tendencia-y-variabilidad
