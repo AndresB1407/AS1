@@ -284,7 +284,7 @@ legend("topright", legend = c("Original", "7-day Lag"),
 
 ## Descomposición de la Serie de Tiempo
 
-Para el análisis de esta serie de tiempo, se realiza una descomposición con el fin de identificar y separar los componentes fundamentales: tendencia, estacionariedad y residuo. 
+Para el análisis de esta serie de tiempo, se realiza una descomposición aditiva con el fin de identificar y separar los componentes fundamentales: tendencia, estacionalidad y residuo. 
 
 Esta descomposición es fundamental para detectar patrones subyacentes y facilita la toma de decisiones sobre la necesidad de aplicar técnicas adicionales, como la diferenciación o transformaciones, para manejar la variabilidad y controlar posibles sesgos en la serie temporal.
 
