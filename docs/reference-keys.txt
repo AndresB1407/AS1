@@ -14,3 +14,6 @@ descomposición-de-la-serie-de-tiempo
 verificación-de-estacionariedad
 diferenciación-de-la-serie
 transformación-para-control-de-tendencia-y-variabilidad
+estacionariedad
+estacionalidad
+conclusiones
