@@ -115,7 +115,7 @@ head(spx_data)
 
 ## Tratamiento previo del dataset
 
-Dada la base de datos escogida para las actividades del curso, se procede a realizar un análisis gráfico de los posibles patrones que pueda expresar esta serie de tiempo, particularmente, considerando los conceptos de aproximación a través de media móvil (MA), rezagos en la serie, y estacionalidad.
+Dada la base de datos escogida para las actividades del curso, se procede a realizar un análisis gráfico de los posibles patrones que pueda expresar esta serie de tiempo, particularmente, considerando los conceptos de aproximación a través de media móvil (MA), rezagos en la serie, y estacionariedad.
 
 Inicialmente, se procede con la consecusión del formato del dataset como serie de tiempo, empleando el paquete xts de R, el cual permite estructura el dataset en función de sus fechas, de tal forma que es posible tener en cuenta las brechas generadas por los fines de semana y holidays de esta serie de tiempo en días.
 
@@ -165,7 +165,7 @@ lag.plot(spx_segment, lags = 30, do.lines = FALSE)
 ```
 
 
-## Estacionalidad y tratamiento
+## Estacionariedad y tratamiento
 
 Un análisis propicio de esta serie de tiempo también implica cónsiderar los posibles efectos estacionales que pueden subyacer en el comportamiento del índice. Así, se provee una aproximación desestacionalizada de la serie a través del método de diferenciación estacional.
 
@@ -284,7 +284,7 @@ legend("topright", legend = c("Original", "7-day Lag"),
 
 ## Descomposición de la Serie de Tiempo
 
-Para el análisis de esta serie de tiempo, se realiza una descomposición con el fin de identificar y separar los componentes fundamentales: tendencia, estacionalidad y residuo. 
+Para el análisis de esta serie de tiempo, se realiza una descomposición con el fin de identificar y separar los componentes fundamentales: tendencia, estacionariedad y residuo. 
 
 Esta descomposición es fundamental para detectar patrones subyacentes y facilita la toma de decisiones sobre la necesidad de aplicar técnicas adicionales, como la diferenciación o transformaciones, para manejar la variabilidad y controlar posibles sesgos en la serie temporal.
 
@@ -308,15 +308,15 @@ plot(decomposed_spx)
 
 La serie temporal del S&P 500 fue descompuesta en sus componentes principales para identificar y analizar su estructura subyacente. A continuación, se describen cada uno de los componentes y la información que aporta al análisis:
 
-Observed (Observado): Este componente representa los valores reales de la serie temporal, incluyendo todas las variaciones de tendencia, estacionalidad y ruido. En esta serie observada, se destaca un comportamiento al alza, especialmente hacia el final del período analizado, lo cual es consistente con la tendencia del S&P 500 en el tiempo.
+Observed (Observado): Este componente representa los valores reales de la serie temporal, incluyendo todas las variaciones de tendencia, estacionariedad y ruido. En esta serie observada, se destaca un comportamiento al alza, especialmente hacia el final del período analizado, lo cual es consistente con la tendencia del S&P 500 en el tiempo.
 
 Trend (Tendencia): El componente de tendencia refleja el cambio general de nivel en la serie a lo largo del tiempo. En este caso, la tendencia muestra un crecimiento estable, con una ligera aceleración hacia el final del período. Este componente es clave para identificar cambios de nivel en el mercado y observar patrones de crecimiento o decrecimiento en el índice.
 
-Seasonal (Estacionalidad): La estacionalidad captura patrones repetitivos que ocurren en intervalos específicos. En el caso del S&P 500, se observan fluctuaciones periódicas, lo que indica la presencia de estacionalidad en el comportamiento de la serie. Este componente es relevante para comprender ciclos repetitivos que pueden estar asociados a factores estacionales o eventos recurrentes en el mercado.
+Seasonal (Estacionariedad): La estacionariedad captura patrones repetitivos que ocurren en intervalos específicos. En el caso del S&P 500, se observan fluctuaciones periódicas, lo que indica la presencia de Estacionariedad en el comportamiento de la serie. Este componente es relevante para comprender ciclos repetitivos que pueden estar asociados a factores estacionales o eventos recurrentes en el mercado.
 
-Random (Ruido): El componente de ruido representa la variabilidad que no puede ser explicada por la tendencia ni por la estacionalidad. En esta serie, se observa una alta variabilidad en el componente de ruido, lo cual sugiere la influencia de factores externos y cambios impredecibles que afectan el mercado. Este componente es especialmente importante para entender la cantidad de incertidumbre o volatilidad en el índice.
+Random (Ruido): El componente de ruido representa la variabilidad que no puede ser explicada por la tendencia ni por la estacionariedad. En esta serie, se observa una alta variabilidad en el componente de ruido, lo cual sugiere la influencia de factores externos y cambios impredecibles que afectan el mercado. Este componente es especialmente importante para entender la cantidad de incertidumbre o volatilidad en el índice.
 
-## Estacionalidad
+## Estacionariedad
 
 Para evaluar la estacionariedad de la serie temporal del S&P 500, se realizó la prueba de Dickey-Fuller Aumentado (ADF). Esta prueba estadística es utilizada comúnmente en series temporales para determinar si una serie es estacionaria, es decir, si sus propiedades estadísticas, como la media y la varianza, son constantes en el tiempo.
 
@@ -330,7 +330,7 @@ Si el p-valor es menor que 0.05, se concluye que la serie es estacionaria, y no 
 Si el p-valor es mayor que 0.05, se indica que la serie no es estacionaria, por lo que podría ser necesario aplicar una diferenciación para eliminar la tendencia y estabilizar la media de la serie.
 La aplicación de esta prueba permite tomar decisiones informadas sobre el tratamiento de la serie temporal y la necesidad de realizar ajustes adicionales para mejorar la precisión de los análisis y modelos de pronóstico.
 
-```{r estacionalidad, include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+```{r Estacionariedad, include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
 
 # Cargar la librería necesaria
 library(tseries)
@@ -366,7 +366,7 @@ La gráfica resultante muestra que, tras esta diferenciación, la serie oscila a
 
 ## Transformación para Control de Tendencia y Variabilidad
 
-Antes de proceder con algún tipo de transformación se realiza nuevamente la validación de estacionalidad luego de diferenciación de la serie.
+Antes de proceder con algún tipo de transformación se realiza nuevamente la validación de estacionariedad luego de diferenciación de la serie.
 
 ```{r valida, include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
 
@@ -384,7 +384,7 @@ Dado que la serie temporal del S&P 500, después de la diferenciación de primer
 
 ## Conclusiones 
 
-1. Descomposición de la Serie: La descomposición de la serie temporal del S&P 500 permitió identificar los componentes de tendencia, estacionalidad y ruido. Esto ayudó a separar los patrones subyacentes en la serie y facilitó el análisis detallado de cada uno.
+1. Descomposición de la Serie: La descomposición de la serie temporal del S&P 500 permitió identificar los componentes de tendencia, Estacionariedad y ruido. Esto ayudó a separar los patrones subyacentes en la serie y facilitó el análisis detallado de cada uno.
 
 2. Verificación de Estacionariedad: La prueba de Dickey-Fuller aplicada a la serie original confirmó que la serie no era estacionaria, lo cual hizo necesaria la aplicación de una diferenciación de primer orden para estabilizar la media y remover la tendencia.
 

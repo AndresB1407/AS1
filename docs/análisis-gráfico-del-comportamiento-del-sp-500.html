@@ -157,14 +157,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.1" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#tratamiento-previo-del-dataset"><i class="fa fa-check"></i><b>2.1</b> Tratamiento previo del dataset</a></li>
 <li class="chapter" data-level="2.2" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#serie-de-tiempo-en-bruto"><i class="fa fa-check"></i><b>2.2</b> Serie de tiempo en bruto</a></li>
-<li class="chapter" data-level="2.3" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#estacionalidad-y-tratamiento"><i class="fa fa-check"></i><b>2.3</b> Estacionalidad y tratamiento</a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#estacionariedad-y-tratamiento"><i class="fa fa-check"></i><b>2.3</b> Estacionariedad y tratamiento</a></li>
 <li class="chapter" data-level="2.4" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#aproximación-por-ma"><i class="fa fa-check"></i><b>2.4</b> Aproximación por MA</a></li>
 <li class="chapter" data-level="2.5" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#aproximación-por-rezagos"><i class="fa fa-check"></i><b>2.5</b> Aproximación por rezagos</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>3</b> Análisis Avanzado de Series de Tiempo</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#descomposición-de-la-serie-de-tiempo"><i class="fa fa-check"></i><b>3.1</b> Descomposición de la Serie de Tiempo</a></li>
-<li class="chapter" data-level="3.2" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#estacionalidad"><i class="fa fa-check"></i><b>3.2</b> Estacionalidad</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#estacionariedad"><i class="fa fa-check"></i><b>3.2</b> Estacionariedad</a></li>
 <li class="chapter" data-level="3.3" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#diferenciación-de-la-serie"><i class="fa fa-check"></i><b>3.3</b> Diferenciación de la Serie</a></li>
 <li class="chapter" data-level="3.4" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#transformación-para-control-de-tendencia-y-variabilidad"><i class="fa fa-check"></i><b>3.4</b> Transformación para Control de Tendencia y Variabilidad</a></li>
 <li class="chapter" data-level="3.5" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>3.5</b> Conclusiones</a></li>
@@ -193,7 +193,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number"> 2</span> Análisis gráfico del comportamiento del S&amp;P 500<a href="análisis-gráfico-del-comportamiento-del-sp-500.html#análisis-gráfico-del-comportamiento-del-sp-500" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="tratamiento-previo-del-dataset" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Tratamiento previo del dataset<a href="análisis-gráfico-del-comportamiento-del-sp-500.html#tratamiento-previo-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Dada la base de datos escogida para las actividades del curso, se procede a realizar un análisis gráfico de los posibles patrones que pueda expresar esta serie de tiempo, particularmente, considerando los conceptos de aproximación a través de media móvil (MA), rezagos en la serie, y estacionalidad.</p>
+<p>Dada la base de datos escogida para las actividades del curso, se procede a realizar un análisis gráfico de los posibles patrones que pueda expresar esta serie de tiempo, particularmente, considerando los conceptos de aproximación a través de media móvil (MA), rezagos en la serie, y estacionariedad.</p>
 <p>Inicialmente, se procede con la consecusión del formato del dataset como serie de tiempo, empleando el paquete xts de R, el cual permite estructura el dataset en función de sus fechas, de tal forma que es posible tener en cuenta las brechas generadas por los fines de semana y holidays de esta serie de tiempo en días.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#cb7-1" tabindex="-1"></a><span class="co">#install.packages(&quot;xts&quot;)</span></span>
 <span id="cb7-2"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#cb7-2" tabindex="-1"></a></span>
@@ -231,8 +231,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-4"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#cb10-4" tabindex="-1"></a><span class="fu">lag.plot</span>(spx_segment, <span class="at">lags =</span> <span class="dv">30</span>, <span class="at">do.lines =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/lagplot1-1.png" width="672" /></p>
 </div>
-<div id="estacionalidad-y-tratamiento" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Estacionalidad y tratamiento<a href="análisis-gráfico-del-comportamiento-del-sp-500.html#estacionalidad-y-tratamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="estacionariedad-y-tratamiento" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Estacionariedad y tratamiento<a href="análisis-gráfico-del-comportamiento-del-sp-500.html#estacionariedad-y-tratamiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Un análisis propicio de esta serie de tiempo también implica cónsiderar los posibles efectos estacionales que pueden subyacer en el comportamiento del índice. Así, se provee una aproximación desestacionalizada de la serie a través del método de diferenciación estacional.</p>
 <p>La aplicación de diferenciación estacional sustrae el valor del año anterior en la misma fecha para cada observación, de la siguiente manera:</p>
 <p><span class="math display">\[ Y^* = Y_t - Y_u  \]</span>

@@ -17,3 +17,4 @@ transformación-para-control-de-tendencia-y-variabilidad
 estacionariedad
 estacionalidad
 conclusiones
+estacionariedad-y-tratamiento
