@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content=" 3 Análisis Avanzado de Series de Tiempo | Análisis de Series de Tiempo" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Grupo 8" />
 
 
-<meta name="date" content="2024-11-04" />
+<meta name="date" content="2024-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ set in the _output.yml file.</p>" />
   
   
 <link rel="prev" href="análisis-gráfico-del-comportamiento-del-sp-500.html"/>
-
+<link rel="next" href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -62,7 +62,7 @@ set in the _output.yml file.</p>" />
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -168,6 +168,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#diferenciación-de-la-serie"><i class="fa fa-check"></i><b>3.3</b> Diferenciación de la Serie</a></li>
 <li class="chapter" data-level="3.4" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#transformación-para-control-de-tendencia-y-variabilidad"><i class="fa fa-check"></i><b>3.4</b> Transformación para Control de Tendencia y Variabilidad</a></li>
 <li class="chapter" data-level="3.5" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>3.5</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><i class="fa fa-check"></i><b>4</b> Introducción a modelos de pronóstico: Modelos de Suavizamiento Exponencial.</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-aditivo"><i class="fa fa-check"></i><b>4.1</b> Modelo Holt-Winters aditivo</a></li>
+<li class="chapter" data-level="4.2" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-multiplicativo"><i class="fa fa-check"></i><b>4.2</b> Modelo Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="4.3" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>4.3</b> Suavizamiento exponencial simple</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -277,7 +283,6 @@ La aplicación de esta prueba permite tomar decisiones informadas sobre el trata
 <li><p>Aplicación de Diferenciación: Tras aplicar la diferenciación de primer orden, la serie temporal mostró un comportamiento estacionario, lo cual fue confirmado mediante una segunda prueba de Dickey-Fuller. La serie diferenciada no presenta tendencia y oscila alrededor de una media constante.</p></li>
 <li><p>No Necesidad de Transformaciones Adicionales: Debido a que la serie diferenciada no muestra problemas de varianza creciente, se concluye que no es necesario aplicar transformaciones adicionales para estabilizar la variabilidad. La serie está en condiciones adecuadas para análisis posteriores o para su inclusión en modelos de pronóstico.</p></li>
 </ol>
-
 </div>
 </div>
             </section>
@@ -285,8 +290,8 @@ La aplicación de esta prueba permite tomar decisiones informadas sobre el trata
           </div>
         </div>
       </div>
-<a href="análisis-gráfico-del-comportamiento-del-sp-500.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="análisis-gráfico-del-comportamiento-del-sp-500.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

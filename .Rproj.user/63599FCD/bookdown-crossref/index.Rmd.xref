@@ -8,7 +8,17 @@ h2:fuente Fuente:
 h1:análisis-gráfico-del-comportamiento-del-sp-500 Análisis gráfico del comportamiento del S&P 500
 h2:tratamiento-previo-del-dataset Tratamiento previo del dataset
 h2:serie-de-tiempo-en-bruto Serie de tiempo en bruto
-h2:estacionalidad-y-tratamiento Estacionalidad y tratamiento
+h2:estacionariedad-y-tratamiento Estacionariedad y tratamiento
 h2:aproximación-por-ma Aproximación por MA
 h2:aproximación-por-rezagos Aproximación por rezagos
+h1:análisis-avanzado-de-series-de-tiempo Análisis Avanzado de Series de Tiempo
+h2:descomposición-de-la-serie-de-tiempo Descomposición de la Serie de Tiempo
+h2:estacionariedad Estacionariedad
+h2:diferenciación-de-la-serie Diferenciación de la Serie
+h2:transformación-para-control-de-tendencia-y-variabilidad Transformación para Control de Tendencia y Variabilidad
+h2:conclusiones Conclusiones
+h1:introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial. Introducción a modelos de pronóstico: Modelos de Suavizamiento Exponencial.
+h2:modelo-holt-winters-aditivo Modelo Holt-Winters aditivo
+h2:modelo-holt-winters-multiplicativo Modelo Holt-Winters Multiplicativo
+h2:suavizamiento-exponencial-simple Suavizamiento exponencial simple
 
