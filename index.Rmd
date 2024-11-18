@@ -42,7 +42,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/ASUS/OneDrive - PUJ Cali/Documentos/MAESTRÍA PUJ/analisis de series de tiempo/datasets/HistoricalData_1728883475484.csv")
+spx_data <- read_csv("C:/Users/JORGE/Desktop/AS1/HistoricalData_1731901344975.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -103,7 +103,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/ASUS/OneDrive - PUJ Cali/Documentos/MAESTRÍA PUJ/analisis de series de tiempo/datasets/HistoricalData_1728883475484.csv")
+spx_data <- read_csv("C:/Users/JORGE/Desktop/AS1/HistoricalData_1731901344975.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -294,8 +294,8 @@ Esta descomposición es fundamental para detectar patrones subyacentes y facilit
 library(xts)
 library(forecast)
 
-# Asegúrate de que `spx_segment` está en formato de serie de tiempo
-# Ajusta el argumento frequency según la periodicidad de tu serie (por ejemplo, daily sería 365 si tienes datos diarios)
+
+# Ajusta el argumento frequency 
 spx_ts <- ts(spx_segment, frequency = 365)
 
 # Descomposición de la serie
@@ -686,4 +686,94 @@ cat("RMSE: ", RMSE, "\n")
 ```
 
 En este sentido, dado el análisis realizado y las prepiedades exploradas en el marco del modelo Holt-Winters, resulta indispensable el considerar la influencia de los componentes de Tendencia y Estacionalidad en la serie de tiempo, de tal forma que, de tener que escoger entre las 3 opciones de modelación a disposición para la toma de decisiones en el mercado, el emplear predicciones desde el modelo Holt-Winters aditivo se muestra como la decisión correcta.
+
+
+# Análisis de Series de Tiempo con Facebook Prophet.
+
+## Introducción.
+
+En este capítulo se aplica el modelo Facebook Prophet para analizar una serie de tiempo basada en datos históricos del índice S&P 500. El objetivo principal es explorar tendencias, estacionalidades y realizar predicciones futuras, complementando los modelos trabajados previamente. Además, se justifica la viabilidad de tratar la serie como una regresión, conectando los hallazgos con enfoques lineales y estacionarios ya planteados.
+
+## Preparación de los Datos.
+
+Para llevar a cabo el análisis con Prophet, fue necesario preparar previamente el dataset spx_data, que contiene información histórica del índice S&P 500, incluyendo la fecha (Date), el precio de cierre (Close/Last), apertura (Open), máximos (High) y mínimos (Low). Prophet requiere que las columnas de fecha y la variable objetivo tengan nombres específicos para procesar los datos correctamente.
+
+Primero, la columna Date se renombró como ds (date stamp) y la columna Close/Last se renombró como y (valor a predecir). Además, los datos fueron ordenados cronológicamente en orden ascendente para garantizar la consistencia temporal del modelo. Este preprocesamiento fue esencial para alinear el formato del dataset con los requisitos de Prophet, asegurando que las fechas fueran interpretadas correctamente y los valores de cierre sirvieran como base para las predicciones.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Prepare the dataset for Prophet
+spx_data_prepared <- spx_data %>%
+  rename(ds = Date, y = `Close/Last`) %>% 
+  arrange(ds)                            
+
+# Check the prepared dataset
+head(spx_data_prepared)
+
+```
+
+## Aplicación del Modelo Prophet.
+
+Con los datos preparados, se aplicó el modelo Prophet para analizar la serie temporal del índice S&P 500. Utilizando las columnas ds (fechas) y y (precio de cierre), el modelo fue ajustado para capturar las tendencias y estacionalidades presentes en los datos históricos.
+
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Load Prophet library
+library(prophet)
+
+# Fit the Prophet model
+model <- prophet(spx_data_prepared)
+
+# Create future dates for predictions 
+future <- make_future_dataframe(model, periods = 365)
+
+# Generate predictions
+forecast <- predict(model, future)
+
+
+
+```
+
+### Gráfico de Predicciones:
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Plot the forecast
+plot(model, forecast)
+
+```
+
+
+El  gráfico combina los datos históricos del índice S&P 500 con las predicciones generadas por el modelo Prophet. La línea negra representa los valores reales observados desde 2015, mostrando un crecimiento sostenido con fluctuaciones atribuibles a eventos del mercado. La línea azul, que corresponde al pronóstico del modelo, sugiere que el índice mantendrá una tendencia ascendente en el futuro. El área sombreada en azul claro, que representa los intervalos de confianza, es estrecha en el corto plazo, indicando alta precisión en las predicciones inmediatas, y se amplía en el largo plazo, reflejando una mayor incertidumbre debido a factores impredecibles.
+
+
+
+### Gráfico de Componentes:
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Plot forecast components
+prophet_plot_components(model, forecast)
+
+
+```
+
+
+El  gráfico descompone el comportamiento del índice S&P 500 en tres componentes principales: tendencia, estacionalidad semanal y estacionalidad anual. La tendencia refleja un crecimiento positivo sostenido a largo plazo, alineado con el desempeño histórico del mercado. La estacionalidad semanal muestra variaciones asociadas a los días de la semana, destacando una disminución los fines de semana debido a la inactividad del mercado. Por su parte, la estacionalidad anual identifica patrones cíclicos recurrentes a lo largo del año, posiblemente influenciados por ciclos económicos y eventos estacionales. Estos componentes permiten comprender los factores que afectan el comportamiento del índice y aportan información clave para las predicciones.
+
+## Justificación.
+
+El análisis realizado con Prophet demuestra que la serie de tiempo del índice S&P 500 puede modelarse bajo un enfoque de regresión. Esto se debe a que el modelo descompone la serie en componentes fundamentales, como tendencia, estacionalidad semanal y anual, permitiendo capturar las relaciones temporales inherentes en los datos.
+
+En este caso, el tiempo actúa como la variable independiente, mientras que el valor de cierre (Close/Last) es la variable dependiente. Prophet utiliza un enfoque aditivo, lo que significa que combina las tendencias y patrones estacionales en una fórmula de regresión temporal. Este método permite no solo predecir valores futuros, sino también identificar cómo las fluctuaciones diarias, semanales y anuales influyen en el comportamiento del índice. Por lo tanto, la serie puede justificarse como un problema de regresión, donde cada componente aporta información crucial para el modelo.
+
+Un ejemplo práctico de esta relación se observa en la tendencia a largo plazo, que refleja el crecimiento sostenido del índice a lo largo de los años, mientras que las estacionalidades semanal y anual introducen variaciones más pequeñas pero consistentes, como los cambios en días de operación o ciclos económicos.
+
+
+## Conclusiones.    
+
+El modelo Prophet demostró ser una herramienta eficaz para analizar y predecir el comportamiento del índice S&P 500. La descomposición de la serie en componentes de tendencia, estacionalidad semanal y estacionalidad anual permitió no solo realizar predicciones precisas, sino también interpretar los patrones subyacentes en los datos históricos.
+
+El enfoque de regresión aplicado en Prophet proporciona una base sólida para justificar el uso de esta técnica en el análisis de series temporales, al tratar el tiempo como predictor y los valores históricos como resultados. Esto refuerza la idea de que los datos financieros, como el índice S&P 500, pueden modelarse y explicarse utilizando metodologías de regresión dentro de un contexto temporal.
+
 

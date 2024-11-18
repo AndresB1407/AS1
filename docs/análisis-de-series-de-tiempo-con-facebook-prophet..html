@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Análisis de Series de Tiempo</title>
+  <title> 5 Análisis de Series de Tiempo con Facebook Prophet. | Análisis de Series de Tiempo</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Análisis de Series de Tiempo" />
+  <meta property="og:title" content=" 5 Análisis de Series de Tiempo con Facebook Prophet. | Análisis de Series de Tiempo" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Análisis de Series de Tiempo" />
+  <meta name="twitter:title" content=" 5 Análisis de Series de Tiempo con Facebook Prophet. | Análisis de Series de Tiempo" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"/>
 
-<link rel="next" href="análisis-gráfico-del-comportamiento-del-sp-500.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -207,98 +207,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Análisis de Series de Tiempo</h1>
-<p class="author"><em>Grupo 8</em></p>
-<p class="date"><em>2024-11-17</em></p>
+<div id="análisis-de-series-de-tiempo-con-facebook-prophet." class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number"> 5</span> Análisis de Series de Tiempo con Facebook Prophet.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#análisis-de-series-de-tiempo-con-facebook-prophet." class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción." class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Introducción.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#introducción." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este capítulo se aplica el modelo Facebook Prophet para analizar una serie de tiempo basada en datos históricos del índice S&amp;P 500. El objetivo principal es explorar tendencias, estacionalidades y realizar predicciones futuras, complementando los modelos trabajados previamente. Además, se justifica la viabilidad de tratar la serie como una regresión, conectando los hallazgos con enfoques lineales y estacionarios ya planteados.</p>
 </div>
-<div id="propuesta-de-estructura-de-datos-a-trabajar-en-el-curso" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number"> 1</span> Propuesta de estructura de datos a trabajar en el curso<a href="index.html#propuesta-de-estructura-de-datos-a-trabajar-en-el-curso" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>La estructura de información a trabajar en el curso será la serie de tiempo correspondiente al índice S&amp;P 500, el cual es un indicador ponderado del valor de capitalización de las 500 compañías más importantes de Estados Unidos.</p>
-<p>Calculado por la evaluadora de riesgo Standard &amp; Poor’s, este índice captura el 80% del comportamiento de la capitalización bursátil en el mercado americano. En tanto su estructura posee mayor diversidad en el tipo de compañías que lo componen, se tiene que el índice S&amp;P 500 es una buena medida para monitorear y predecir la actividad económica en los enclaves económicos de mayor importancia a nivel global.</p>
-<p>En general, la pertinencia del uso de este dataset radica en 3 razones principales:</p>
-<ul>
-<li><p>En principio, se trata de una estructura de información concisa, legítima en el marco de las actividades de sectores financieros globales, y sin problemas previos en cuanto a la limpieza de sus observaciones. Por lo que una rutina progresiva de análisis sobre esta base de datos se puede dar con mayor facilidad e interpretabilidad.</p></li>
-<li><p>El estudio del comportamiento de la capitalización bursátil a nivel global, contenido en el dataset escogido, implica una vista previa y una posible profundización del análisis financiero en el marco de las series de tiempo sobre el comportamiento de firmas, sectores y economías de alto impacto. De esta manera, la aplicación de la rutina de análisis del curso sobre este dataset puede decantar en un ejercicio robusto que puede extenderse más allá de los propósitos básicos de aprendizaje, y conformar una herramienta útil para las intenciones del autor.</p></li>
-<li><p>El estudio de la estructura y comportamiento de este dataset como serie de tiempo, inmerso en las dinámicas de intercambio de los mercados de activos financieros, puede representar una herramienta de profundización para la toma de decisiones en materia de optimización de portafolios, y, en general, en materia de comprensión e implementación práctica de instrumentos aplicados de análisis de procesos estocásticos y metodologías de pronósticos.</p></li>
-</ul>
-<div id="dataset" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Dataset:<a href="index.html#dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
-<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
-<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a><span class="co"># Import the downloaded CSV file (change the path accordingly)</span></span>
-<span id="cb1-9"><a href="index.html#cb1-9" tabindex="-1"></a>spx_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;C:/Users/JORGE/Desktop/AS1/HistoricalData_1731901344975.csv&quot;</span>)</span>
-<span id="cb1-10"><a href="index.html#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="index.html#cb1-11" tabindex="-1"></a><span class="co"># Display the first few rows of the dataset</span></span>
-<span id="cb1-12"><a href="index.html#cb1-12" tabindex="-1"></a><span class="fu">head</span>(spx_data)</span></code></pre></div>
+<div id="preparación-de-los-datos." class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Preparación de los Datos.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#preparación-de-los-datos." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para llevar a cabo el análisis con Prophet, fue necesario preparar previamente el dataset spx_data, que contiene información histórica del índice S&amp;P 500, incluyendo la fecha (Date), el precio de cierre (Close/Last), apertura (Open), máximos (High) y mínimos (Low). Prophet requiere que las columnas de fecha y la variable objetivo tengan nombres específicos para procesar los datos correctamente.</p>
+<p>Primero, la columna Date se renombró como ds (date stamp) y la columna Close/Last se renombró como y (valor a predecir). Además, los datos fueron ordenados cronológicamente en orden ascendente para garantizar la consistencia temporal del modelo. Este preprocesamiento fue esencial para alinear el formato del dataset con los requisitos de Prophet, asegurando que las fechas fueran interpretadas correctamente y los valores de cierre sirvieran como base para las predicciones.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-1" tabindex="-1"></a><span class="co"># Prepare the dataset for Prophet</span></span>
+<span id="cb87-2"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-2" tabindex="-1"></a>spx_data_prepared <span class="ot">&lt;-</span> spx_data <span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-3" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ds =</span> Date, <span class="at">y =</span> <span class="st">`</span><span class="at">Close/Last</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-4"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-4" tabindex="-1"></a>  <span class="fu">arrange</span>(ds)                            </span>
+<span id="cb87-5"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-5" tabindex="-1"></a></span>
+<span id="cb87-6"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-6" tabindex="-1"></a><span class="co"># Check the prepared dataset</span></span>
+<span id="cb87-7"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb87-7" tabindex="-1"></a><span class="fu">head</span>(spx_data_prepared)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
-##   Date       `Close/Last`  Open  High   Low
-##   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 11/15/2024        5871. 5913. 5915. 5853.
-## 2 11/14/2024        5949. 5990. 5994. 5942.
-## 3 11/13/2024        5985. 5986. 6008. 5966.
-## 4 11/12/2024        5984. 6004. 6010. 5960.
-## 5 11/11/2024        6001. 6009. 6017. 5987.
-## 6 11/08/2024        5996. 5977. 6012. 5977.</code></pre>
+##   ds             y  Open  High   Low
+##   &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2014-11-17 2041. 2038. 2043. 2034.
+## 2 2014-11-18 2052. 2041. 2056. 2041.
+## 3 2014-11-19 2049. 2051. 2052. 2040.
+## 4 2014-11-20 2053. 2046. 2054. 2040.
+## 5 2014-11-21 2064. 2057. 2071. 2057.
+## 6 2014-11-24 2069. 2065. 2070. 2065.</code></pre>
 </div>
-<div id="summary" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Summary:<a href="index.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(spx_data)</span></code></pre></div>
-<pre><code>##      Date             Close/Last        Open           High           Low      
-##  Length:2528        Min.   :1829   Min.   :   0   Min.   :   0   Min.   :   0  
-##  Class :character   1st Qu.:2388   1st Qu.:2389   1st Qu.:2394   1st Qu.:2379  
-##  Mode  :character   Median :2972   Median :2969   Median :2984   Median :2955  
-##                     Mean   :3303   Mean   :3294   Mean   :3311   Mean   :3275  
-##                     3rd Qu.:4171   3rd Qu.:4170   3rd Qu.:4194   3rd Qu.:4144  
-##                     Max.   :6001   Max.   :6009   Max.   :6017   Max.   :5987</code></pre>
+<div id="aplicación-del-modelo-prophet." class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Aplicación del Modelo Prophet.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#aplicación-del-modelo-prophet." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Con los datos preparados, se aplicó el modelo Prophet para analizar la serie temporal del índice S&amp;P 500. Utilizando las columnas ds (fechas) y y (precio de cierre), el modelo fue ajustado para capturar las tendencias y estacionalidades presentes en los datos históricos.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-1" tabindex="-1"></a><span class="co"># Load Prophet library</span></span>
+<span id="cb89-2"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-2" tabindex="-1"></a><span class="fu">library</span>(prophet)</span>
+<span id="cb89-3"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-3" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-4" tabindex="-1"></a><span class="co"># Fit the Prophet model</span></span>
+<span id="cb89-5"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-5" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">prophet</span>(spx_data_prepared)</span>
+<span id="cb89-6"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-6" tabindex="-1"></a></span>
+<span id="cb89-7"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-7" tabindex="-1"></a><span class="co"># Create future dates for predictions </span></span>
+<span id="cb89-8"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-8" tabindex="-1"></a>future <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(model, <span class="at">periods =</span> <span class="dv">365</span>)</span>
+<span id="cb89-9"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-9" tabindex="-1"></a></span>
+<span id="cb89-10"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-10" tabindex="-1"></a><span class="co"># Generate predictions</span></span>
+<span id="cb89-11"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb89-11" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, future)</span></code></pre></div>
+<div id="gráfico-de-predicciones" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Gráfico de Predicciones:<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-predicciones" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb90-1" tabindex="-1"></a><span class="co"># Plot the forecast</span></span>
+<span id="cb90-2"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb90-2" tabindex="-1"></a><span class="fu">plot</span>(model, forecast)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+El gráfico combina los datos históricos del índice S&amp;P 500 con las predicciones generadas por el modelo Prophet. La línea negra representa los valores reales observados desde 2015, mostrando un crecimiento sostenido con fluctuaciones atribuibles a eventos del mercado. La línea azul, que corresponde al pronóstico del modelo, sugiere que el índice mantendrá una tendencia ascendente en el futuro. El área sombreada en azul claro, que representa los intervalos de confianza, es estrecha en el corto plazo, indicando alta precisión en las predicciones inmediatas, y se amplía en el largo plazo, reflejando una mayor incertidumbre debido a factores impredecibles.</p>
 </div>
-<div id="scatter-plott-de-la-serie-de-tiempo" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Scatter plott de la serie de tiempo:<a href="index.html#scatter-plott-de-la-serie-de-tiempo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
-<span id="cb5-2"><a href="index.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-3"><a href="index.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb5-4"><a href="index.html#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="index.html#cb5-5" tabindex="-1"></a><span class="co"># Print the column names to check their exact names</span></span>
-<span id="cb5-6"><a href="index.html#cb5-6" tabindex="-1"></a><span class="co">#print(colnames(spx_data))</span></span>
-<span id="cb5-7"><a href="index.html#cb5-7" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="index.html#cb5-8" tabindex="-1"></a><span class="co"># Convert the Date column to Date type</span></span>
-<span id="cb5-9"><a href="index.html#cb5-9" tabindex="-1"></a>spx_data <span class="ot">&lt;-</span> spx_data <span class="sc">%&gt;%</span> </span>
-<span id="cb5-10"><a href="index.html#cb5-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(Date, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>))</span>
-<span id="cb5-11"><a href="index.html#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="index.html#cb5-12" tabindex="-1"></a><span class="co"># Update the column name here after checking the output of print(colnames(spx_data))</span></span>
-<span id="cb5-13"><a href="index.html#cb5-13" tabindex="-1"></a>spx_data <span class="ot">&lt;-</span> spx_data <span class="sc">%&gt;%</span></span>
-<span id="cb5-14"><a href="index.html#cb5-14" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Close_price =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;[^0-9.]&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">`</span><span class="at">Close/Last</span><span class="st">`</span>)))  <span class="co"># Update this line with the correct name</span></span>
-<span id="cb5-15"><a href="index.html#cb5-15" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="index.html#cb5-16" tabindex="-1"></a><span class="co"># Remove rows with NA values in Date or Close_price</span></span>
-<span id="cb5-17"><a href="index.html#cb5-17" tabindex="-1"></a>spx_data <span class="ot">&lt;-</span> spx_data <span class="sc">%&gt;%</span></span>
-<span id="cb5-18"><a href="index.html#cb5-18" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Date) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Close_price))</span>
-<span id="cb5-19"><a href="index.html#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="index.html#cb5-20" tabindex="-1"></a><span class="co"># Create the scatter plot</span></span>
-<span id="cb5-21"><a href="index.html#cb5-21" tabindex="-1"></a><span class="fu">ggplot</span>(spx_data, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Close_price)) <span class="sc">+</span></span>
-<span id="cb5-22"><a href="index.html#cb5-22" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb5-23"><a href="index.html#cb5-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;S&amp;P 500 Close Prices Over Time&quot;</span>,</span>
-<span id="cb5-24"><a href="index.html#cb5-24" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Date&quot;</span>,</span>
-<span id="cb5-25"><a href="index.html#cb5-25" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Close Price&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-26"><a href="index.html#cb5-26" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/scatter%20plot1-1.png" width="672" /></p>
+<div id="gráfico-de-componentes" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Gráfico de Componentes:<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-componentes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb91-1" tabindex="-1"></a><span class="co"># Plot forecast components</span></span>
+<span id="cb91-2"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#cb91-2" tabindex="-1"></a><span class="fu">prophet_plot_components</span>(model, forecast)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+El gráfico descompone el comportamiento del índice S&amp;P 500 en tres componentes principales: tendencia, estacionalidad semanal y estacionalidad anual. La tendencia refleja un crecimiento positivo sostenido a largo plazo, alineado con el desempeño histórico del mercado. La estacionalidad semanal muestra variaciones asociadas a los días de la semana, destacando una disminución los fines de semana debido a la inactividad del mercado. Por su parte, la estacionalidad anual identifica patrones cíclicos recurrentes a lo largo del año, posiblemente influenciados por ciclos económicos y eventos estacionales. Estos componentes permiten comprender los factores que afectan el comportamiento del índice y aportan información clave para las predicciones.</p>
 </div>
-<div id="fuente" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> Fuente:<a href="index.html#fuente" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><a href="https://www.nasdaq.com/market-activity/index/spx/historical?page=1&amp;rows_per_page=10&amp;timeline=y10" class="uri">https://www.nasdaq.com/market-activity/index/spx/historical?page=1&amp;rows_per_page=10&amp;timeline=y10</a></p>
-<pre><code>## # A tibble: 6 × 5
-##   Date       `Close/Last`  Open  High   Low
-##   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 11/15/2024        5871. 5913. 5915. 5853.
-## 2 11/14/2024        5949. 5990. 5994. 5942.
-## 3 11/13/2024        5985. 5986. 6008. 5966.
-## 4 11/12/2024        5984. 6004. 6010. 5960.
-## 5 11/11/2024        6001. 6009. 6017. 5987.
-## 6 11/08/2024        5996. 5977. 6012. 5977.</code></pre>
+</div>
+<div id="justificación." class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Justificación.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#justificación." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El análisis realizado con Prophet demuestra que la serie de tiempo del índice S&amp;P 500 puede modelarse bajo un enfoque de regresión. Esto se debe a que el modelo descompone la serie en componentes fundamentales, como tendencia, estacionalidad semanal y anual, permitiendo capturar las relaciones temporales inherentes en los datos.</p>
+<p>En este caso, el tiempo actúa como la variable independiente, mientras que el valor de cierre (Close/Last) es la variable dependiente. Prophet utiliza un enfoque aditivo, lo que significa que combina las tendencias y patrones estacionales en una fórmula de regresión temporal. Este método permite no solo predecir valores futuros, sino también identificar cómo las fluctuaciones diarias, semanales y anuales influyen en el comportamiento del índice. Por lo tanto, la serie puede justificarse como un problema de regresión, donde cada componente aporta información crucial para el modelo.</p>
+<p>Un ejemplo práctico de esta relación se observa en la tendencia a largo plazo, que refleja el crecimiento sostenido del índice a lo largo de los años, mientras que las estacionalidades semanal y anual introducen variaciones más pequeñas pero consistentes, como los cambios en días de operación o ciclos económicos.</p>
+</div>
+<div id="conclusiones." class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Conclusiones.<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#conclusiones." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El modelo Prophet demostró ser una herramienta eficaz para analizar y predecir el comportamiento del índice S&amp;P 500. La descomposición de la serie en componentes de tendencia, estacionalidad semanal y estacionalidad anual permitió no solo realizar predicciones precisas, sino también interpretar los patrones subyacentes en los datos históricos.</p>
+<p>El enfoque de regresión aplicado en Prophet proporciona una base sólida para justificar el uso de esta técnica en el análisis de series temporales, al tratar el tiempo como predictor y los valores históricos como resultados. Esto refuerza la idea de que los datos financieros, como el índice S&amp;P 500, pueden modelarse y explicarse utilizando metodologías de regresión dentro de un contexto temporal.</p>
+
 </div>
 </div>
             </section>
@@ -306,8 +281,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
+<a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="análisis-gráfico-del-comportamiento-del-sp-500.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -19,3 +19,11 @@ introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial.
 modelo-holt-winters-aditivo
 modelo-holt-winters-multiplicativo
 suavizamiento-exponencial-simple
+análisis-de-series-de-tiempo-con-facebook-prophet.
+introducción.
+preparación-de-los-datos.
+aplicación-del-modelo-prophet.
+gráfico-de-predicciones
+gráfico-de-componentes
+justificación.
+conclusiones.

@@ -8,7 +8,7 @@
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content=" 4 Introducción a modelos de pronóstico: Modelos de Suavizamiento Exponencial. | Análisis de Series de Tiempo" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Grupo 8" />
 
 
-<meta name="date" content="2024-11-11" />
+<meta name="date" content="2024-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ set in the _output.yml file.</p>" />
   
   
 <link rel="prev" href="análisis-avanzado-de-series-de-tiempo.html"/>
-
+<link rel="next" href="análisis-de-series-de-tiempo-con-facebook-prophet..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -72,7 +72,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -174,6 +174,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-aditivo"><i class="fa fa-check"></i><b>4.1</b> Modelo Holt-Winters aditivo</a></li>
 <li class="chapter" data-level="4.2" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-multiplicativo"><i class="fa fa-check"></i><b>4.2</b> Modelo Holt-Winters Multiplicativo</a></li>
 <li class="chapter" data-level="4.3" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>4.3</b> Suavizamiento exponencial simple</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html"><i class="fa fa-check"></i><b>5</b> Análisis de Series de Tiempo con Facebook Prophet.</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#introducción."><i class="fa fa-check"></i><b>5.1</b> Introducción.</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#preparación-de-los-datos."><i class="fa fa-check"></i><b>5.2</b> Preparación de los Datos.</a></li>
+<li class="chapter" data-level="5.3" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#aplicación-del-modelo-prophet."><i class="fa fa-check"></i><b>5.3</b> Aplicación del Modelo Prophet.</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-predicciones"><i class="fa fa-check"></i><b>5.3.1</b> Gráfico de Predicciones:</a></li>
+<li class="chapter" data-level="5.3.2" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-componentes"><i class="fa fa-check"></i><b>5.3.2</b> Gráfico de Componentes:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#justificación."><i class="fa fa-check"></i><b>5.4</b> Justificación.</a></li>
+<li class="chapter" data-level="5.5" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#conclusiones."><i class="fa fa-check"></i><b>5.5</b> Conclusiones.</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -450,7 +462,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#cb85-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;RMSE: &quot;</span>, RMSE, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## RMSE:  1081.097</code></pre>
 <p>En este sentido, dado el análisis realizado y las prepiedades exploradas en el marco del modelo Holt-Winters, resulta indispensable el considerar la influencia de los componentes de Tendencia y Estacionalidad en la serie de tiempo, de tal forma que, de tener que escoger entre las 3 opciones de modelación a disposición para la toma de decisiones en el mercado, el emplear predicciones desde el modelo Holt-Winters aditivo se muestra como la decisión correcta.</p>
-
 </div>
 </div>
             </section>
@@ -458,8 +469,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="análisis-avanzado-de-series-de-tiempo.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="análisis-avanzado-de-series-de-tiempo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
