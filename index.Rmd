@@ -42,7 +42,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/JORGE/Desktop/AS1/HistoricalData_1731901344975.csv")
+spx_data <- read_csv("C:/Users/anaso/OneDrive/Documentos/Desktop/AS1/HistoricalData_1731898394439.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -103,7 +103,7 @@ library(dplyr)
 library(readr)
 
 # Import the downloaded CSV file (change the path accordingly)
-spx_data <- read_csv("C:/Users/JORGE/Desktop/AS1/HistoricalData_1731901344975.csv")
+spx_data <- read_csv("C:/Users/anaso/OneDrive/Documentos/Desktop/AS1/HistoricalData_1731898394439.csv")
 
 # Display the first few rows of the dataset
 head(spx_data)
@@ -686,6 +686,8 @@ cat("RMSE: ", RMSE, "\n")
 ```
 
 En este sentido, dado el análisis realizado y las prepiedades exploradas en el marco del modelo Holt-Winters, resulta indispensable el considerar la influencia de los componentes de Tendencia y Estacionalidad en la serie de tiempo, de tal forma que, de tener que escoger entre las 3 opciones de modelación a disposición para la toma de decisiones en el mercado, el emplear predicciones desde el modelo Holt-Winters aditivo se muestra como la decisión correcta.
+
+# Variables en el tiempo, el ajuste a un modelo lineal y estacionario. 
 
 
 # Análisis de Series de Tiempo con Facebook Prophet.

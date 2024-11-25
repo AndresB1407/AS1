@@ -27,3 +27,4 @@ gráfico-de-predicciones
 gráfico-de-componentes
 justificación.
 conclusiones.
+variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario.
