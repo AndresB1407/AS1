@@ -689,6 +689,147 @@ En este sentido, dado el análisis realizado y las prepiedades exploradas en el 
 
 # Variables en el tiempo, el ajuste a un modelo lineal y estacionario. 
 
+## Introducción.
+
+En este capítulo se analiza la dinámica temporal de las variables del índice S&P 500 para comprender sus tendencias y patrones a lo largo del tiempo. El enfoque principal incluye la evaluación de las variables clave, el ajuste de un modelo lineal que capture relaciones significativas y la validación de la estacionariedad en la serie.
+
+## Perparación de Datos. 
+
+Para analizar la dinámica temporal del índice S&P 500, se inició con la transformación de la columna Date al formato adecuado de fecha, lo que permite realizar análisis temporales y ajustar modelos basados en el tiempo.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Prepare the dataset for Prophet
+spx_data_prepared <- spx_data %>%
+  rename(ds = Date, y = `Close/Last`) %>% 
+  arrange(ds)                            
+
+# Check the prepared dataset
+head(spx_data_prepared)
+
+```
+
+## Análisis de las Variables en el Tiempo.
+
+Para comprender las dinámicas temporales del índice S&P 500, se realiza un análisis exploratorio de la serie temporal.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+
+# Load the ggplot2 library for creating visualizations
+library(ggplot2)
+
+# Create a line plot to visualize the time series of closing prices
+ggplot(spx_data_prepared, aes(x = ds, y = y)) +
+  geom_line(color = "blue") + # Plot a blue line for the series
+  labs(
+    title = "S&P 500: Serie Temporal de Precios de Cierre",
+    x = "Fecha", # Label for the x-axis
+    y = "Precio de Cierre" # Label for the y-axis
+  ) +
+  theme_minimal() # Apply a minimal theme for better aesthetics
+
+```
+
+La serie temporal del índice S&P 500 muestra una tendencia creciente a lo largo del tiempo, con caídas notables durante 2020, posiblemente relacionadas con la crisis económica derivada de la pandemia de COVID-19. Posteriormente, se observa una recuperación significativa y un crecimiento continuo hasta 2024, destacando el comportamiento positivo reciente del mercado.
+
+
+## Ajuste de un Modelo Lineal
+
+En este apartado, se ajustó un modelo de regresión lineal para describir la relación entre el tiempo y los precios de cierre del índice S&P 500.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+# Create a time index to represent the progression of dates numerically
+spx_data_prepared$time_index <- seq_along(spx_data_prepared$ds)
+
+# Fit a linear regression model: closing prices (y) as a function of time index
+linear_model <- lm(y ~ time_index, data = spx_data_prepared)
+
+# Display the summary of the linear model
+summary(linear_model)
+```
+
+A pesar de su robustez en capturar la tendencia general, el modelo no explica completamente las fluctuaciones de corto plazo, como lo refleja un error estándar residual de 329.6 unidades. Esto indica que el ajuste lineal es adecuado para entender la dinámica a largo plazo, pero insuficiente para captar variaciones puntuales o eventos atípicos.
+
+## Visualización del Modelo Lineal
+
+El modelo lineal ajustado muestra que el precio de cierre del S&P 500 tiene una tendencia positiva significativa a lo largo del tiempo, con un crecimiento promedio de 1.372 unidades por incremento del índice temporal. El modelo explica el 90.23% de la variación observada en los datos. Sin embargo, se observan fluctuaciones en los precios que no son capturadas por el modelo, lo que indica que este ajuste puede no ser suficiente para representar las dinámicas de corto plazo del índice.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+# Plot the data points and the fitted linear regression line
+ggplot(spx_data_prepared, aes(x = time_index, y = y)) +
+  geom_point(alpha = 0.5, color = "blue") + # Scatter plot of data points
+  geom_smooth(method = "lm", color = "red") + # Linear regression line
+  labs(
+    title = "Modelo Lineal Ajustado a los Precios del S&P 500",
+    x = "Índice de Tiempo",
+    y = "Precio de Cierre"
+  ) +
+  theme_minimal()
+```
+
+
+## Evaluación de Estacionariedad
+
+La estacionariedad es un requisito clave para ciertos modelos de series temporales, como ARIMA. Evaluaremos si la serie del S&P 500 es estacionaria mediante la prueba de Dickey-Fuller aumentada (ADF). Si la serie no es estacionaria, aplicaremos una transformación (como la diferenciación).
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+# Load the tseries library for the Augmented Dickey-Fuller test
+library(tseries)
+
+# Perform the ADF test on the closing prices
+adf_test <- adf.test(spx_data_prepared$y, alternative = "stationary")
+
+# Print the p-value to determine stationarity
+adf_test$p.value
+```
+
+## Ajuste del Modelo ARIMA
+
+Se ajustó un modelo ARIMA(2,1,2) con deriva a la serie temporal del índice S&P 500. Este modelo combina dos términos autorregresivos, una diferenciación para estacionarizar la serie, y dos términos de media móvil. Los coeficientes estimados son estadísticamente significativos, lo que respalda la validez del modelo. Las métricas obtenidas, como un  𝑅𝑀𝑆𝐸 = 36.2988, indican que el modelo ofrece un buen nivel de precisión en sus predicciones.
+
+```{r , include=TRUE, warning=FALSE, message=FALSE, echo=TRUE, dev='png', dpi=96}
+# Load the forecast library for ARIMA modeling
+library(forecast)
+
+# Fit an ARIMA model to the original series
+arima_model <- auto.arima(spx_data_prepared$y)
+
+# Display the summary of the ARIMA model
+summary(arima_model)
+
+
+# Forecast the next 30 time periods
+forecast_arima <- forecast(arima_model, h = 30)
+
+# Plot the forecast
+autoplot(forecast_arima) +
+  labs(
+    title = "Pronóstico del Modelo ARIMA para el S&P 500",
+    x = "Fecha",
+    y = "Precio de Cierre"
+  ) +
+  theme_minimal()
+
+```
+
+El grafico muestra el pronóstico del modelo ARIMA para los próximos 30 periodos. Las predicciones reflejan la tendencia ascendente observada en los datos históricos, con un rango de incertidumbre moderado. Este modelo es útil tanto para comprender el comportamiento pasado como para proyectar posibles escenarios futuros del índice S&P 500.
+
+## Conclusiones
+El análisis de la serie temporal del índice S&P 500 permitió identificar tendencias y patrones clave, así como realizar pronósticos confiables basados en modelos estadísticos. Los principales hallazgos se resumen a continuación:
+
+Tendencia y Comportamiento General:
+
+La serie temporal del S&P 500 mostró una clara tendencia ascendente durante el período analizado, reflejando el crecimiento sostenido del mercado en los últimos años. Sin embargo, se observaron fluctuaciones importantes durante eventos específicos, como la crisis de 2020, que interrumpieron temporalmente esta tendencia.
+Ajuste del Modelo Lineal:
+
+El modelo lineal ajustado capturó la tendencia general de los precios de cierre, explicando el 90.23% de la variación en los datos. Este modelo es útil para comprender el comportamiento a largo plazo, pero no logró captar adecuadamente las fluctuaciones de corto plazo, como caídas abruptas o picos inusuales.
+Modelo ARIMA y Pronósticos:
+
+El modelo ARIMA(2,1,2) con deriva proporcionó una representación más precisa de la serie temporal, modelando tanto la tendencia como las variaciones de corto plazo. Este modelo fue utilizado para realizar pronósticos de los próximos 30 períodos, que reflejaron una continuación de la tendencia ascendente del índice, con un rango moderado de incertidumbre.
+Implicaciones del Análisis:
+
+Los resultados obtenidos ofrecen una herramienta sólida para analizar el comportamiento histórico y proyectar escenarios futuros del índice S&P 500, lo que puede ser útil para la toma de decisiones estratégicas en el contexto financiero.
+
 
 # Análisis de Series de Tiempo con Facebook Prophet.
 

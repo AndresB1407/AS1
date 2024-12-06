@@ -28,3 +28,11 @@ gráfico-de-componentes
 justificación.
 conclusiones.
 variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario.
+perparación-de-datos.
+análisis-de-las-variables-en-el-tiempo.
+introducción.-1
+ajuste-de-un-modelo-lineal
+visualización-del-modelo-lineal
+evaluación-de-estacionariedad
+ajuste-del-modelo-arima
+conclusiones-1
