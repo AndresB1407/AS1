@@ -919,4 +919,219 @@ El modelo Prophet demostró ser una herramienta eficaz para analizar y predecir 
 
 El enfoque de regresión aplicado en Prophet proporciona una base sólida para justificar el uso de esta técnica en el análisis de series temporales, al tratar el tiempo como predictor y los valores históricos como resultados. Esto refuerza la idea de que los datos financieros, como el índice S&P 500, pueden modelarse y explicarse utilizando metodologías de regresión dentro de un contexto temporal.
 
+# Predicción del Índice S&P 500 Utilizando Redes Neuronales Elman y Jordan
 
+## Introducción
+
+El índice S&P 500 es un importante referente del mercado financiero global, compuesto por las 500 empresas más grandes de Estados Unidos. Este análisis utiliza técnicas avanzadas de redes neuronales recurrentes, específicamente las arquitecturas Elman y Jordan, para predecir los precios de cierre del índice y comparar su desempeño.
+
+## Preparación de los Datos.
+
+### División en conjuntos de entrenamiento y prueba:
+
+Los datos se dividieron en un 80% para entrenamiento y un 20% para prueba, garantizando que el modelo se entrene con una cantidad suficiente de datos y se evalúe con datos no vistos.
+
+```{r message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96, include=FALSE}
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+install.packages("caret")
+
+library(caret)
+
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+
+library(caret)
+spx_data_prepared$time_index <- seq_along(spx_data_prepared$ds)
+
+head(spx_data_prepared$time_index)
+set.seed(123)
+trainIndex <- createDataPartition(spx_data_prepared$y, p = 0.8, list = FALSE)
+trainData <- spx_data_prepared[trainIndex, ]
+testData <- spx_data_prepared[-trainIndex, ]
+```
+
+### Escalado de los datos.
+
+Se aplicó un escalado min-max para garantizar que los valores de entrada estén dentro de un rango adecuado para optimizar el desempeño de las redes neuronales.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+max_value <- max(trainData$y)
+min_value <- min(trainData$y)
+
+trainData$y_scaled <- (trainData$y - min_value) / (max_value - min_value)
+
+testData$y_scaled <- (testData$y - min_value) / (max_value - min_value)
+
+head(trainData$y_scaled)
+head(testData$y_scaled)
+
+```
+
+### Preparación de las Entradas y Salidas.
+
+Para alimentar las redes neuronales, se prepararon matrices de entrada y salida. Las entradas consisten en los índices temporales de la serie, mientras que las salidas representan los precios escalados. Este formato es esencial para que los modelos puedan aprender patrones en los datos temporales de manera eficiente.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+inputs_train <- as.matrix(trainData$time_index) 
+targets_train <- as.matrix(trainData$y_scaled)  
+inputs_test <- as.matrix(testData$time_index)  
+targets_test <- as.matrix(testData$y_scaled)   
+
+dim(inputs_train)
+dim(targets_train)
+dim(inputs_test)
+dim(targets_test)
+```
+
+## Implementación de Redes Neuronales.
+
+### Red Neuronal Elman.
+
+#### Entrenamiento. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+install.packages("RSNNS")
+library(RSNNS)
+
+set.seed(123)
+elman_model <- elman(
+  inputs_train,
+  targets_train,
+  size = c(5),            
+  learnFuncParams = c(0.1), 
+  maxit = 500,        
+  linOut = TRUE          
+)
+
+summary(elman_model)
+```
+
+#### Evaluación. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+predictions_elman <- predict(elman_model, inputs_test)
+
+predictions_elman_rescaled <- predictions_elman * (max_value - min_value) + min_value
+
+rmse_elman <- sqrt(mean((testData$y - predictions_elman_rescaled)^2))
+
+print(paste("RMSE de la Red Elman:", rmse_elman))
+```
+
+#### Resultados.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+set.seed(123)
+elman_model_adjusted <- elman(
+  inputs_train,
+  targets_train,
+  size = c(10),          
+  learnFuncParams = c(0.05),
+  maxit = 1000,        
+  linOut = TRUE
+)
+
+predictions_elman_adjusted <- predict(elman_model_adjusted, inputs_test)
+
+predictions_elman_rescaled_adjusted <- predictions_elman_adjusted * (max_value - min_value) + min_value
+
+rmse_elman_adjusted <- sqrt(mean((testData$y - predictions_elman_rescaled_adjusted)^2))
+print(paste("RMSE Ajustado de la Red Elman:", rmse_elman_adjusted))
+
+results_elman_adjusted <- data.frame(
+  Fecha = testData$ds,
+  Real = testData$y,
+  Predicción = predictions_elman_rescaled_adjusted
+)
+
+ggplot(results_elman_adjusted, aes(x = Fecha)) +
+  geom_line(aes(y = Real), color = "blue") +
+  geom_line(aes(y = Predicción), color = "red") +
+  labs(
+    title = "Red Neuronal Elman Ajustada: Predicciones vs Reales",
+    x = "Fecha",
+    y = "Precio de Cierre"
+  ) +
+  theme_minimal()
+```
+
+La red neuronal Elman fue entrenada con los datos preparados utilizando un índice temporal como entrada y los precios escalados como salida. Sin embargo, los resultados mostraron que el modelo no logró capturar correctamente los patrones de la serie temporal del S&P 500. Esto se evidenció en la gráfica de predicciones vs. valores reales, donde las predicciones estuvieron significativamente alejadas de los valores observados.
+
+Posibles Causas Identificadas:
+
+Entradas insuficientes: Usar únicamente el índice temporal como entrada puede no ser suficiente para modelar una serie temporal tan compleja como esta.
+Limitaciones del modelo Elman: Esta arquitectura puede no ser adecuada para capturar patrones complejos y dependencias a largo plazo en los datos financieros.
+
+
+### Red Neuronal Jordan
+
+#### Entrenamiento. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+set.seed(123)
+jordan_model <- jordan(
+  inputs_train,
+  targets_train,
+  size = c(5),         
+  learnFuncParams = c(0.1), 
+  maxit = 500,         
+  linOut = TRUE         
+)
+
+summary(jordan_model)
+
+
+```
+
+#### Evaluación.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+predictions_jordan <- predict(jordan_model, inputs_test)
+
+predictions_jordan_rescaled <- predictions_jordan * (max_value - min_value) + min_value
+
+rmse_jordan <- sqrt(mean((testData$y - predictions_jordan_rescaled)^2))
+
+print(paste("RMSE de la Red Jordan:", rmse_jordan))
+
+
+```
+
+#### Resultados.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, , include=TRUE, dev='png', dpi=96}
+
+results_jordan <- data.frame(
+  Fecha = testData$ds,
+  Real = testData$y,
+  Predicción = predictions_jordan_rescaled
+)
+
+library(ggplot2)
+ggplot(results_jordan, aes(x = Fecha)) +
+  geom_line(aes(y = Real), color = "blue") +
+  geom_line(aes(y = Predicción), color = "green") +
+  labs(
+    title = "Red Neuronal Jordan: Predicciones vs Reales",
+    x = "Fecha",
+    y = "Precio de Cierre"
+  ) +
+  theme_minimal()
+
+```
+
+La red neuronal Jordan también fue implementada siguiendo una estructura similar a la Elman. Aunque esta arquitectura incluye una capa de retroalimentación diferente, los resultados tampoco fueron satisfactorios. Las predicciones se mantuvieron lejos de los valores reales, como se observa en la gráfica generada.
+
+Limitaciones Observadas:
+
+Inadecuación de la arquitectura: La red Jordan puede no ser lo suficientemente robusta para modelar series temporales con alta variabilidad y tendencias a largo plazo.
+Falta de características adicionales: Al igual que con Elman, no se incluyeron valores de retraso (lags) ni otras variables que puedan mejorar la capacidad del modelo para identificar patrones en los datos.
+
+
+## Conclusiones Intermedias
+
+Las redes Elman y Jordan no lograron capturar adecuadamente los patrones de la serie temporal, lo que se refleja en el alto error de predicción (RMSE) y la distancia entre los valores reales y predichos.
+
+Ambos modelos presentan limitaciones cuando se aplican directamente a series temporales financieras complejas sin características adicionales.

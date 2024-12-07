@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title> 7 Predicción del Índice S&amp;P 500 Utilizando Redes Neuronales Elman y Jordan | Análisis de Series de Tiempo</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content=" 7 Predicción del Índice S&amp;P 500 Utilizando Redes Neuronales Elman y Jordan | Análisis de Series de Tiempo" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content=" 7 Predicción del Índice S&amp;P 500 Utilizando Redes Neuronales Elman y Jordan | Análisis de Series de Tiempo" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Grupo 8" />
+
+
+<meta name="date" content="2024-12-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-de-series-de-tiempo-con-facebook-prophet..html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Analisis de Series de Tiempo</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Propuesta de estructura de datos a trabajar en el curso</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset:</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#summary"><i class="fa fa-check"></i><b>1.2</b> Summary:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#scatter-plott-de-la-serie-de-tiempo"><i class="fa fa-check"></i><b>1.3</b> Scatter plott de la serie de tiempo:</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#fuente"><i class="fa fa-check"></i><b>1.4</b> Fuente:</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html"><i class="fa fa-check"></i><b>2</b> Análisis gráfico del comportamiento del S&amp;P 500</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#tratamiento-previo-del-dataset"><i class="fa fa-check"></i><b>2.1</b> Tratamiento previo del dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#serie-de-tiempo-en-bruto"><i class="fa fa-check"></i><b>2.2</b> Serie de tiempo en bruto</a></li>
+<li class="chapter" data-level="2.3" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#estacionariedad-y-tratamiento"><i class="fa fa-check"></i><b>2.3</b> Estacionariedad y tratamiento</a></li>
+<li class="chapter" data-level="2.4" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#aproximación-por-ma"><i class="fa fa-check"></i><b>2.4</b> Aproximación por MA</a></li>
+<li class="chapter" data-level="2.5" data-path="análisis-gráfico-del-comportamiento-del-sp-500.html"><a href="análisis-gráfico-del-comportamiento-del-sp-500.html#aproximación-por-rezagos"><i class="fa fa-check"></i><b>2.5</b> Aproximación por rezagos</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>3</b> Análisis Avanzado de Series de Tiempo</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#descomposición-de-la-serie-de-tiempo"><i class="fa fa-check"></i><b>3.1</b> Descomposición de la Serie de Tiempo</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#estacionariedad"><i class="fa fa-check"></i><b>3.2</b> Estacionariedad</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#diferenciación-de-la-serie"><i class="fa fa-check"></i><b>3.3</b> Diferenciación de la Serie</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#transformación-para-control-de-tendencia-y-variabilidad"><i class="fa fa-check"></i><b>3.4</b> Transformación para Control de Tendencia y Variabilidad</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-avanzado-de-series-de-tiempo.html"><a href="análisis-avanzado-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>3.5</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><i class="fa fa-check"></i><b>4</b> Introducción a modelos de pronóstico: Modelos de Suavizamiento Exponencial.</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-aditivo"><i class="fa fa-check"></i><b>4.1</b> Modelo Holt-Winters aditivo</a></li>
+<li class="chapter" data-level="4.2" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#modelo-holt-winters-multiplicativo"><i class="fa fa-check"></i><b>4.2</b> Modelo Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="4.3" data-path="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html"><a href="introducción-a-modelos-de-pronóstico-modelos-de-suavizamiento-exponencial..html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>4.3</b> Suavizamiento exponencial simple</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><i class="fa fa-check"></i><b>5</b> Variables en el tiempo, el ajuste a un modelo lineal y estacionario.</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#introducción."><i class="fa fa-check"></i><b>5.1</b> Introducción.</a></li>
+<li class="chapter" data-level="5.2" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#perparación-de-datos."><i class="fa fa-check"></i><b>5.2</b> Perparación de Datos.</a></li>
+<li class="chapter" data-level="5.3" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#análisis-de-las-variables-en-el-tiempo."><i class="fa fa-check"></i><b>5.3</b> Análisis de las Variables en el Tiempo.</a></li>
+<li class="chapter" data-level="5.4" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#ajuste-de-un-modelo-lineal"><i class="fa fa-check"></i><b>5.4</b> Ajuste de un Modelo Lineal</a></li>
+<li class="chapter" data-level="5.5" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#visualización-del-modelo-lineal"><i class="fa fa-check"></i><b>5.5</b> Visualización del Modelo Lineal</a></li>
+<li class="chapter" data-level="5.6" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#evaluación-de-estacionariedad"><i class="fa fa-check"></i><b>5.6</b> Evaluación de Estacionariedad</a></li>
+<li class="chapter" data-level="5.7" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#ajuste-del-modelo-arima"><i class="fa fa-check"></i><b>5.7</b> Ajuste del Modelo ARIMA</a></li>
+<li class="chapter" data-level="5.8" data-path="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html"><a href="variables-en-el-tiempo-el-ajuste-a-un-modelo-lineal-y-estacionario..html#conclusiones-1"><i class="fa fa-check"></i><b>5.8</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html"><i class="fa fa-check"></i><b>6</b> Análisis de Series de Tiempo con Facebook Prophet.</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#introducción.-1"><i class="fa fa-check"></i><b>6.1</b> Introducción.</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#preparación-de-los-datos."><i class="fa fa-check"></i><b>6.2</b> Preparación de los Datos.</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#aplicación-del-modelo-prophet."><i class="fa fa-check"></i><b>6.3</b> Aplicación del Modelo Prophet.</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-predicciones"><i class="fa fa-check"></i><b>6.3.1</b> Gráfico de Predicciones:</a></li>
+<li class="chapter" data-level="6.3.2" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#gráfico-de-componentes"><i class="fa fa-check"></i><b>6.3.2</b> Gráfico de Componentes:</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#justificación."><i class="fa fa-check"></i><b>6.4</b> Justificación.</a></li>
+<li class="chapter" data-level="6.5" data-path="análisis-de-series-de-tiempo-con-facebook-prophet..html"><a href="análisis-de-series-de-tiempo-con-facebook-prophet..html#conclusiones."><i class="fa fa-check"></i><b>6.5</b> Conclusiones.</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><i class="fa fa-check"></i><b>7</b> Predicción del Índice S&amp;P 500 Utilizando Redes Neuronales Elman y Jordan</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#introducción"><i class="fa fa-check"></i><b>7.1</b> Introducción</a></li>
+<li class="chapter" data-level="7.2" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#preparación-de-los-datos.-1"><i class="fa fa-check"></i><b>7.2</b> Preparación de los Datos.</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#división-en-conjuntos-de-entrenamiento-y-prueba"><i class="fa fa-check"></i><b>7.2.1</b> División en conjuntos de entrenamiento y prueba:</a></li>
+<li class="chapter" data-level="7.2.2" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#escalado-de-los-datos."><i class="fa fa-check"></i><b>7.2.2</b> Escalado de los datos.</a></li>
+<li class="chapter" data-level="7.2.3" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#preparación-de-las-entradas-y-salidas."><i class="fa fa-check"></i><b>7.2.3</b> Preparación de las Entradas y Salidas.</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#implementación-de-redes-neuronales."><i class="fa fa-check"></i><b>7.3</b> Implementación de Redes Neuronales.</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#red-neuronal-elman."><i class="fa fa-check"></i><b>7.3.1</b> Red Neuronal Elman.</a></li>
+<li class="chapter" data-level="7.3.2" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#red-neuronal-jordan"><i class="fa fa-check"></i><b>7.3.2</b> Red Neuronal Jordan</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#conclusiones-intermedias"><i class="fa fa-check"></i><b>7.4</b> Conclusiones Intermedias</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Series de Tiempo</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number"> 7</span> Predicción del Índice S&amp;P 500 Utilizando Redes Neuronales Elman y Jordan<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Introducción<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#introducción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El índice S&amp;P 500 es un importante referente del mercado financiero global, compuesto por las 500 empresas más grandes de Estados Unidos. Este análisis utiliza técnicas avanzadas de redes neuronales recurrentes, específicamente las arquitecturas Elman y Jordan, para predecir los precios de cierre del índice y comparar su desempeño.</p>
+</div>
+<div id="preparación-de-los-datos.-1" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Preparación de los Datos.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#preparación-de-los-datos.-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="división-en-conjuntos-de-entrenamiento-y-prueba" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> División en conjuntos de entrenamiento y prueba:<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#división-en-conjuntos-de-entrenamiento-y-prueba" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los datos se dividieron en un 80% para entrenamiento y un 20% para prueba, garantizando que el modelo se entrene con una cantidad suficiente de datos y se evalúe con datos no vistos.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb103-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb103-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb103-2" tabindex="-1"></a>spx_data_prepared<span class="sc">$</span>time_index <span class="ot">&lt;-</span> <span class="fu">seq_along</span>(spx_data_prepared<span class="sc">$</span>ds)</span>
+<span id="cb103-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb103-3" tabindex="-1"></a></span>
+<span id="cb103-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb103-4" tabindex="-1"></a><span class="fu">head</span>(spx_data_prepared<span class="sc">$</span>time_index)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb105-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb105-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb105-2" tabindex="-1"></a>trainIndex <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(spx_data_prepared<span class="sc">$</span>y, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb105-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb105-3" tabindex="-1"></a>trainData <span class="ot">&lt;-</span> spx_data_prepared[trainIndex, ]</span>
+<span id="cb105-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb105-4" tabindex="-1"></a>testData <span class="ot">&lt;-</span> spx_data_prepared[<span class="sc">-</span>trainIndex, ]</span></code></pre></div>
+</div>
+<div id="escalado-de-los-datos." class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Escalado de los datos.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#escalado-de-los-datos." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Se aplicó un escalado min-max para garantizar que los valores de entrada estén dentro de un rango adecuado para optimizar el desempeño de las redes neuronales.</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-1" tabindex="-1"></a>max_value <span class="ot">&lt;-</span> <span class="fu">max</span>(trainData<span class="sc">$</span>y)</span>
+<span id="cb106-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-2" tabindex="-1"></a>min_value <span class="ot">&lt;-</span> <span class="fu">min</span>(trainData<span class="sc">$</span>y)</span>
+<span id="cb106-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-3" tabindex="-1"></a></span>
+<span id="cb106-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-4" tabindex="-1"></a>trainData<span class="sc">$</span>y_scaled <span class="ot">&lt;-</span> (trainData<span class="sc">$</span>y <span class="sc">-</span> min_value) <span class="sc">/</span> (max_value <span class="sc">-</span> min_value)</span>
+<span id="cb106-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-5" tabindex="-1"></a></span>
+<span id="cb106-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-6" tabindex="-1"></a>testData<span class="sc">$</span>y_scaled <span class="ot">&lt;-</span> (testData<span class="sc">$</span>y <span class="sc">-</span> min_value) <span class="sc">/</span> (max_value <span class="sc">-</span> min_value)</span>
+<span id="cb106-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-7" tabindex="-1"></a></span>
+<span id="cb106-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb106-8" tabindex="-1"></a><span class="fu">head</span>(trainData<span class="sc">$</span>y_scaled)</span></code></pre></div>
+<pre><code>## [1] 0.04818423 0.04841318 0.05100386 0.05242813 0.05185457 0.05325233</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb108-1" tabindex="-1"></a><span class="fu">head</span>(testData<span class="sc">$</span>y_scaled)</span></code></pre></div>
+<pre><code>## [1] 0.04565862 0.04744197 0.05325233 0.05386445 0.04200034 0.02913129</code></pre>
+</div>
+<div id="preparación-de-las-entradas-y-salidas." class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Preparación de las Entradas y Salidas.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#preparación-de-las-entradas-y-salidas." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para alimentar las redes neuronales, se prepararon matrices de entrada y salida. Las entradas consisten en los índices temporales de la serie, mientras que las salidas representan los precios escalados. Este formato es esencial para que los modelos puedan aprender patrones en los datos temporales de manera eficiente.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-1" tabindex="-1"></a>inputs_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(trainData<span class="sc">$</span>time_index) </span>
+<span id="cb110-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-2" tabindex="-1"></a>targets_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(trainData<span class="sc">$</span>y_scaled)  </span>
+<span id="cb110-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-3" tabindex="-1"></a>inputs_test <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(testData<span class="sc">$</span>time_index)  </span>
+<span id="cb110-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-4" tabindex="-1"></a>targets_test <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(testData<span class="sc">$</span>y_scaled)   </span>
+<span id="cb110-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-5" tabindex="-1"></a></span>
+<span id="cb110-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb110-6" tabindex="-1"></a><span class="fu">dim</span>(inputs_train)</span></code></pre></div>
+<pre><code>## [1] 2024    1</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb112-1" tabindex="-1"></a><span class="fu">dim</span>(targets_train)</span></code></pre></div>
+<pre><code>## [1] 2024    1</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb114-1" tabindex="-1"></a><span class="fu">dim</span>(inputs_test)</span></code></pre></div>
+<pre><code>## [1] 504   1</code></pre>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb116-1" tabindex="-1"></a><span class="fu">dim</span>(targets_test)</span></code></pre></div>
+<pre><code>## [1] 504   1</code></pre>
+</div>
+</div>
+<div id="implementación-de-redes-neuronales." class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Implementación de Redes Neuronales.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#implementación-de-redes-neuronales." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="red-neuronal-elman." class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Red Neuronal Elman.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#red-neuronal-elman." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="entrenamiento." class="section level4 hasAnchor" number="7.3.1.1">
+<h4><span class="header-section-number">7.3.1.1</span> Entrenamiento.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#entrenamiento." class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb118-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;RSNNS&quot;</span>)</span></code></pre></div>
+<pre><code>## package &#39;RSNNS&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\anaso\AppData\Local\Temp\RtmpCUKfji\downloaded_packages</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(RSNNS)</span>
+<span id="cb120-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-2" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb120-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-4" tabindex="-1"></a>elman_model <span class="ot">&lt;-</span> <span class="fu">elman</span>(</span>
+<span id="cb120-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-5" tabindex="-1"></a>  inputs_train,</span>
+<span id="cb120-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-6" tabindex="-1"></a>  targets_train,</span>
+<span id="cb120-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-7" tabindex="-1"></a>  <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">5</span>),            </span>
+<span id="cb120-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-8" tabindex="-1"></a>  <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.1</span>), </span>
+<span id="cb120-9"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-9" tabindex="-1"></a>  <span class="at">maxit =</span> <span class="dv">500</span>,        </span>
+<span id="cb120-10"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-10" tabindex="-1"></a>  <span class="at">linOut =</span> <span class="cn">TRUE</span>          </span>
+<span id="cb120-11"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-11" tabindex="-1"></a>)</span>
+<span id="cb120-12"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-12" tabindex="-1"></a></span>
+<span id="cb120-13"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb120-13" tabindex="-1"></a><span class="fu">summary</span>(elman_model)</span></code></pre></div>
+<pre><code>## SNNS network definition file V1.4-3D
+## generated at Sat Dec  7 06:58:26 2024
+## 
+## network name : RSNNS_untitled
+## source files :
+## no. of units : 12
+## no. of connections : 45
+## no. of unit types : 0
+## no. of site types : 0
+## 
+## 
+## learning function : JE_BP
+## update function   : JE_Order
+## 
+## 
+## unit default section :
+## 
+## act      | bias     | st | subnet | layer | act func     | out func
+## ---------|----------|----|--------|-------|--------------|-------------
+##  1.00000 |  0.00000 | i  |      0 |     1 | Act_Logistic | Out_Identity 
+## ---------|----------|----|--------|-------|--------------|-------------
+## 
+## 
+## unit definition section :
+## 
+## no. | typeName | unitName | act      | bias     | st | position | act func     | out func | sites
+## ----|----------|----------|----------|----------|----|----------|--------------|----------|-------
+##   1 |          | inp1     | 2528.00000 |  0.42484 | i  |  1, 1, 0 | Act_Identity |          | 
+##   2 |          | hid1     |  0.00000 | -0.59037 | h  |  7, 1, 0 |||
+##   3 |          | hid2     |  0.00000 | -0.45453 | h  |  7, 2, 0 |||
+##   4 |          | hid3     |  0.00000 | -0.90596 | h  |  7, 3, 0 |||
+##   5 |          | hid4     |  0.00000 | -0.56697 | h  |  7, 4, 0 |||
+##   6 |          | hid5     |  0.00000 |  0.60199 | h  |  7, 5, 0 |||
+##   7 |          | out1     |  0.00000 | 35077.17188 | o  | 13, 1, 0 | Act_Identity |          | 
+##   8 |          | con1     |  0.00000 |  0.50000 | sh  |  4, 7, 0 | Act_Identity |          | 
+##   9 |          | con2     |  0.00000 |  0.50000 | sh  |  4, 8, 0 | Act_Identity |          | 
+##  10 |          | con3     |  0.00000 |  0.50000 | sh  |  4, 9, 0 | Act_Identity |          | 
+##  11 |          | con4     |  0.00000 |  0.50000 | sh  |  4,10, 0 | Act_Identity |          | 
+##  12 |          | con5     |  0.00000 |  0.50000 | sh  |  4,11, 0 | Act_Identity |          | 
+## ----|----------|----------|----------|----------|----|----------|--------------|----------|-------
+## 
+## 
+## connection definition section :
+## 
+## target | site | source:weight
+## -------|------|---------------------------------------------------------------------------------------------------------------------
+##      2 |      | 12: 0.17562, 11:-0.77249, 10:-0.88672,  9: 0.90107,  8:-0.06179,  1:-0.82254
+##      3 |      | 12:-0.07294, 11:-1.06507, 10:-0.03394,  9:-0.59330,  8:-0.26460,  1:-0.27766
+##      4 |      | 12: 0.45862, 11: 0.86578, 10: 0.30060,  9:-0.96721,  8:-0.82097,  1:-0.68485
+##      5 |      | 12:-1.10810, 11:-0.45167, 10:-0.48558,  9:-0.25878,  8:-0.25033,  1:-0.77247
+##      6 |      | 12:-0.96600, 11:-0.85086, 10:-0.40961,  9:-0.67493,  8: 0.92620,  1:-0.52048
+##      7 |      |  6:-0.22064,  5: 0.72386,  4: 0.23075,  3: 0.51610,  2:-0.01505
+##      8 |      |  8: 0.30000,  2: 1.00000
+##      9 |      |  9: 0.30000,  3: 1.00000
+##     10 |      | 10: 0.30000,  4: 1.00000
+##     11 |      | 11: 0.30000,  5: 1.00000
+##     12 |      | 12: 0.30000,  6: 1.00000
+## -------|------|---------------------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="evaluación." class="section level4 hasAnchor" number="7.3.1.2">
+<h4><span class="header-section-number">7.3.1.2</span> Evaluación.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#evaluación." class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-1" tabindex="-1"></a>predictions_elman <span class="ot">&lt;-</span> <span class="fu">predict</span>(elman_model, inputs_test)</span>
+<span id="cb122-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-2" tabindex="-1"></a></span>
+<span id="cb122-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-3" tabindex="-1"></a>predictions_elman_rescaled <span class="ot">&lt;-</span> predictions_elman <span class="sc">*</span> (max_value <span class="sc">-</span> min_value) <span class="sc">+</span> min_value</span>
+<span id="cb122-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-4" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-5" tabindex="-1"></a>rmse_elman <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((testData<span class="sc">$</span>y <span class="sc">-</span> predictions_elman_rescaled)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb122-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-6" tabindex="-1"></a></span>
+<span id="cb122-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb122-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE de la Red Elman:&quot;</span>, rmse_elman))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE de la Red Elman: 1773.08049297038&quot;</code></pre>
+</div>
+<div id="resultados." class="section level4 hasAnchor" number="7.3.1.3">
+<h4><span class="header-section-number">7.3.1.3</span> Resultados.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#resultados." class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb124-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-2" tabindex="-1"></a>elman_model_adjusted <span class="ot">&lt;-</span> <span class="fu">elman</span>(</span>
+<span id="cb124-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-3" tabindex="-1"></a>  inputs_train,</span>
+<span id="cb124-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-4" tabindex="-1"></a>  targets_train,</span>
+<span id="cb124-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-5" tabindex="-1"></a>  <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">10</span>),          </span>
+<span id="cb124-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-6" tabindex="-1"></a>  <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.05</span>),</span>
+<span id="cb124-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-7" tabindex="-1"></a>  <span class="at">maxit =</span> <span class="dv">1000</span>,        </span>
+<span id="cb124-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-8" tabindex="-1"></a>  <span class="at">linOut =</span> <span class="cn">TRUE</span></span>
+<span id="cb124-9"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-9" tabindex="-1"></a>)</span>
+<span id="cb124-10"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-10" tabindex="-1"></a></span>
+<span id="cb124-11"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-11" tabindex="-1"></a>predictions_elman_adjusted <span class="ot">&lt;-</span> <span class="fu">predict</span>(elman_model_adjusted, inputs_test)</span>
+<span id="cb124-12"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-12" tabindex="-1"></a></span>
+<span id="cb124-13"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-13" tabindex="-1"></a>predictions_elman_rescaled_adjusted <span class="ot">&lt;-</span> predictions_elman_adjusted <span class="sc">*</span> (max_value <span class="sc">-</span> min_value) <span class="sc">+</span> min_value</span>
+<span id="cb124-14"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-14" tabindex="-1"></a></span>
+<span id="cb124-15"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-15" tabindex="-1"></a>rmse_elman_adjusted <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((testData<span class="sc">$</span>y <span class="sc">-</span> predictions_elman_rescaled_adjusted)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb124-16"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb124-16" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE Ajustado de la Red Elman:&quot;</span>, rmse_elman_adjusted))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE Ajustado de la Red Elman: 1773.45538041035&quot;</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-1" tabindex="-1"></a>results_elman_adjusted <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb126-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-2" tabindex="-1"></a>  <span class="at">Fecha =</span> testData<span class="sc">$</span>ds,</span>
+<span id="cb126-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-3" tabindex="-1"></a>  <span class="at">Real =</span> testData<span class="sc">$</span>y,</span>
+<span id="cb126-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-4" tabindex="-1"></a>  Predicción <span class="ot">=</span> predictions_elman_rescaled_adjusted</span>
+<span id="cb126-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-5" tabindex="-1"></a>)</span>
+<span id="cb126-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-6" tabindex="-1"></a></span>
+<span id="cb126-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-7" tabindex="-1"></a><span class="fu">ggplot</span>(results_elman_adjusted, <span class="fu">aes</span>(<span class="at">x =</span> Fecha)) <span class="sc">+</span></span>
+<span id="cb126-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-8" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Real), <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb126-9"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción), <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb126-10"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-10" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb126-11"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-11" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Red Neuronal Elman Ajustada: Predicciones vs Reales&quot;</span>,</span>
+<span id="cb126-12"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-12" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>,</span>
+<span id="cb126-13"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-13" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Precio de Cierre&quot;</span></span>
+<span id="cb126-14"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-14" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb126-15"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb126-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>La red neuronal Elman fue entrenada con los datos preparados utilizando un índice temporal como entrada y los precios escalados como salida. Sin embargo, los resultados mostraron que el modelo no logró capturar correctamente los patrones de la serie temporal del S&amp;P 500. Esto se evidenció en la gráfica de predicciones vs. valores reales, donde las predicciones estuvieron significativamente alejadas de los valores observados.</p>
+<p>Posibles Causas Identificadas:</p>
+<p>Entradas insuficientes: Usar únicamente el índice temporal como entrada puede no ser suficiente para modelar una serie temporal tan compleja como esta.
+Limitaciones del modelo Elman: Esta arquitectura puede no ser adecuada para capturar patrones complejos y dependencias a largo plazo en los datos financieros.</p>
+</div>
+</div>
+<div id="red-neuronal-jordan" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Red Neuronal Jordan<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#red-neuronal-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="entrenamiento.-1" class="section level4 hasAnchor" number="7.3.2.1">
+<h4><span class="header-section-number">7.3.2.1</span> Entrenamiento.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#entrenamiento.-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb127-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-2" tabindex="-1"></a>jordan_model <span class="ot">&lt;-</span> <span class="fu">jordan</span>(</span>
+<span id="cb127-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-3" tabindex="-1"></a>  inputs_train,</span>
+<span id="cb127-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-4" tabindex="-1"></a>  targets_train,</span>
+<span id="cb127-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-5" tabindex="-1"></a>  <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">5</span>),         </span>
+<span id="cb127-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-6" tabindex="-1"></a>  <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.1</span>), </span>
+<span id="cb127-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-7" tabindex="-1"></a>  <span class="at">maxit =</span> <span class="dv">500</span>,         </span>
+<span id="cb127-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-8" tabindex="-1"></a>  <span class="at">linOut =</span> <span class="cn">TRUE</span>         </span>
+<span id="cb127-9"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-9" tabindex="-1"></a>)</span>
+<span id="cb127-10"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-10" tabindex="-1"></a></span>
+<span id="cb127-11"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb127-11" tabindex="-1"></a><span class="fu">summary</span>(jordan_model)</span></code></pre></div>
+<pre><code>## SNNS network definition file V1.4-3D
+## generated at Sat Dec  7 06:58:38 2024
+## 
+## network name : RSNNS_untitled
+## source files :
+## no. of units : 8
+## no. of connections : 17
+## no. of unit types : 0
+## no. of site types : 0
+## 
+## 
+## learning function : JE_BP
+## update function   : JE_Order
+## 
+## 
+## unit default section :
+## 
+## act      | bias     | st | subnet | layer | act func     | out func
+## ---------|----------|----|--------|-------|--------------|-------------
+##  1.00000 |  0.00000 | i  |      0 |     1 | Act_Logistic | Out_Identity 
+## ---------|----------|----|--------|-------|--------------|-------------
+## 
+## 
+## unit definition section :
+## 
+## no. | typeName | unitName | act      | bias     | st | position | act func     | out func | sites
+## ----|----------|----------|----------|----------|----|----------|--------------|----------|-------
+##   1 |          | inp1     | 2528.00000 |  0.42484 | i  |  1, 1, 0 | Act_Identity |          | 
+##   2 |          | hid1     |  0.00000 | -0.56849 | h  |  7, 1, 0 |||
+##   3 |          | hid2     |  0.00000 | -0.92661 | h  |  7, 2, 0 |||
+##   4 |          | hid3     |  0.00000 | -0.86151 | h  |  7, 3, 0 |||
+##   5 |          | hid4     |  0.00000 | -0.75109 | h  |  7, 4, 0 |||
+##   6 |          | hid5     |  0.00000 | -0.16861 | h  |  7, 5, 0 |||
+##   7 |          | out1     | -0.00000 | 35405.22656 | o  | 12, 1, 0 | Act_Identity |          | 
+##   8 |          | con1     | -0.00000 |  0.50000 | sh  |  4, 6, 0 | Act_Identity |          | 
+## ----|----------|----------|----------|----------|----|----------|--------------|----------|-------
+## 
+## 
+## connection definition section :
+## 
+## target | site | source:weight
+## -------|------|------------------------------------------------------------------------------------------------------------
+##      2 |      | 8: 0.18788, 1:-0.76538
+##      3 |      | 8: 0.91394, 1:-0.46030
+##      4 |      | 8:-0.10434, 1:-0.48605
+##      5 |      | 8: 0.08519, 1:-0.10087
+##      6 |      | 8: 0.76678, 1:-0.69671
+##      7 |      | 6: 0.86298, 5: 0.45588, 4:-0.79454, 3:-0.70839, 2:-0.41006
+##      8 |      | 8: 0.30000, 7: 1.00000
+## -------|------|------------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="evaluación.-1" class="section level4 hasAnchor" number="7.3.2.2">
+<h4><span class="header-section-number">7.3.2.2</span> Evaluación.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#evaluación.-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-1" tabindex="-1"></a>predictions_jordan <span class="ot">&lt;-</span> <span class="fu">predict</span>(jordan_model, inputs_test)</span>
+<span id="cb129-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-2" tabindex="-1"></a></span>
+<span id="cb129-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-3" tabindex="-1"></a>predictions_jordan_rescaled <span class="ot">&lt;-</span> predictions_jordan <span class="sc">*</span> (max_value <span class="sc">-</span> min_value) <span class="sc">+</span> min_value</span>
+<span id="cb129-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-4" tabindex="-1"></a></span>
+<span id="cb129-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-5" tabindex="-1"></a>rmse_jordan <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((testData<span class="sc">$</span>y <span class="sc">-</span> predictions_jordan_rescaled)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb129-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-6" tabindex="-1"></a></span>
+<span id="cb129-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb129-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE de la Red Jordan:&quot;</span>, rmse_jordan))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE de la Red Jordan: 1772.6678877452&quot;</code></pre>
+</div>
+<div id="resultados.-1" class="section level4 hasAnchor" number="7.3.2.3">
+<h4><span class="header-section-number">7.3.2.3</span> Resultados.<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#resultados.-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-1" tabindex="-1"></a>results_jordan <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb131-2"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-2" tabindex="-1"></a>  <span class="at">Fecha =</span> testData<span class="sc">$</span>ds,</span>
+<span id="cb131-3"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-3" tabindex="-1"></a>  <span class="at">Real =</span> testData<span class="sc">$</span>y,</span>
+<span id="cb131-4"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-4" tabindex="-1"></a>  Predicción <span class="ot">=</span> predictions_jordan_rescaled</span>
+<span id="cb131-5"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-5" tabindex="-1"></a>)</span>
+<span id="cb131-6"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-6" tabindex="-1"></a></span>
+<span id="cb131-7"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-7" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb131-8"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-8" tabindex="-1"></a><span class="fu">ggplot</span>(results_jordan, <span class="fu">aes</span>(<span class="at">x =</span> Fecha)) <span class="sc">+</span></span>
+<span id="cb131-9"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Real), <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-10"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-10" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicción), <span class="at">color =</span> <span class="st">&quot;green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-11"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-11" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb131-12"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-12" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Red Neuronal Jordan: Predicciones vs Reales&quot;</span>,</span>
+<span id="cb131-13"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-13" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>,</span>
+<span id="cb131-14"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-14" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Precio de Cierre&quot;</span></span>
+<span id="cb131-15"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb131-16"><a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#cb131-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>La red neuronal Jordan también fue implementada siguiendo una estructura similar a la Elman. Aunque esta arquitectura incluye una capa de retroalimentación diferente, los resultados tampoco fueron satisfactorios. Las predicciones se mantuvieron lejos de los valores reales, como se observa en la gráfica generada.</p>
+<p>Limitaciones Observadas:</p>
+<p>Inadecuación de la arquitectura: La red Jordan puede no ser lo suficientemente robusta para modelar series temporales con alta variabilidad y tendencias a largo plazo.
+Falta de características adicionales: Al igual que con Elman, no se incluyeron valores de retraso (lags) ni otras variables que puedan mejorar la capacidad del modelo para identificar patrones en los datos.</p>
+</div>
+</div>
+</div>
+<div id="conclusiones-intermedias" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Conclusiones Intermedias<a href="predicción-del-índice-sp-500-utilizando-redes-neuronales-elman-y-jordan.html#conclusiones-intermedias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Las redes Elman y Jordan no lograron capturar adecuadamente los patrones de la serie temporal, lo que se refleja en el alto error de predicción (RMSE) y la distancia entre los valores reales y predichos.</p>
+<p>Ambos modelos presentan limitaciones cuando se aplican directamente a series temporales financieras complejas sin características adicionales.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-de-series-de-tiempo-con-facebook-prophet..html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
